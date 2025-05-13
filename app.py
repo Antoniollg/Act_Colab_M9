@@ -30,11 +30,13 @@ app.layout = html.Div([
 )
 def actualizar_grafico(equipo):
     fila = df[df['equipo'] == equipo]
-    fig = px.bar(fila, x=["goles", "tiros"], y=[fila["goles"].values[0], fila["tiros"].values[0]],
-                 labels={"x": "Estadística", "y": "Valor"},
-                 title=f"Estadísticas de {equipo}")
+    fig = px.bar(fila.melt(id_vars=["equipo"], value_vars=["goles", "tiros"]),
+             x="variable", y="value", color="variable",
+             labels={"variable": "Estadística", "value": "Valor"},
+             title=f"Estadísticas de {equipo}")
     return fig
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run(debug=True)
+
 
